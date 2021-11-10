@@ -45,11 +45,11 @@ class MessageTestCase (TestCase):
     # PURPOSE:
     # Test key constraints
     # 1. Test key size under length 8 
-    # (shouldn't save key-msg pair, resulting in a "No message found.")
+    # (shouldn't save key-msg pair, resulting in a "")
     # 2. Test key size over length 8 
-    # (shouldn't save key-msg pair, resulting in a "No message found.")
+    # (shouldn't save key-msg pair, resulting in a "")
     # 3. Test key with non-alphanumeric character "-"
-    # (shouldn't save key-msg pair, resulting in a "No message found.")
+    # (shouldn't save key-msg pair, resulting in a "")
     # 4. Test key can be alphanumeric (not just numeric)
     # (should work and save key-msg pair)
     #
@@ -73,12 +73,12 @@ class MessageTestCase (TestCase):
     # Purpose:
     # Test msg constraint (max length of 160 characters)
     # Creates key-msg pair w/ msg length of 161 charcters
-    # Asserts the msg from get to match with "No message found."
+    # Asserts the msg from get to match with ""
     #
     def test_msg_constraints_enforced(self):
         create = self.client.post("/msgserver/create", {'key':'1234abcd', 'msg':'01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'})
         get = self.client.get("/msgserver/get/1234abcd")
-        self.assertIn(b'No message found.', get._container[0])
+        self.assertIn(b'', get._container[0])
 
     # Purpose:
     # Test if output is in json format
