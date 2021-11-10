@@ -54,7 +54,7 @@ def get_message(request, key):
         jsonMsg = json.dumps(message[0], cls=JSONEncode)
         return HttpResponse(jsonMsg)
     else:
-        return HttpResponse("No message found.")
+        return HttpResponse("")
 
 # PURPOSE:
 # Displays an array of all key-msg pairs in json format
