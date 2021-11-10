@@ -56,15 +56,15 @@ class MessageTestCase (TestCase):
     def test_key_constraints_enforced(self):
         create = self.client.post("/msgserver/create", {'key':'1234abc', 'msg':'Test'})
         get = self.client.get("/msgserver/get/1234abc")
-        self.assertIn(b'No message found.', get._container[0])
+        self.assertIn(b'', get._container[0])
 
         create = self.client.post("/msgserver/create", {'key':'1234abcde', 'msg':'Test'})
         get = self.client.get("/msgserver/get/1234abcde")
-        self.assertIn(b'No message found.', get._container[0])
+        self.assertIn(b'', get._container[0])
 
         create = self.client.post("/msgserver/create", {'key':'1234abc-', 'msg':'Test'})
         get = self.client.get("/msgserver/get/1234abc-")
-        self.assertIn(b'No message found.', get._container[0])
+        self.assertIn(b'', get._container[0])
 
         create = self.client.post("/msgserver/create", {'key':'1234abcd', 'msg':'Test'})
         m = Message.objects.get(key='1234abcd')
