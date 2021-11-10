@@ -3,6 +3,7 @@
 import requests
 import sys
 import random
+import string
 
 HOST = ''
 PORT = 12345
@@ -25,16 +26,11 @@ URL = sys.argv[1]
 KEY = sys.argv[2]
 
 # PURPOSE:
-# Generate an 8 digit random key
-# This is a numeric key, but could be changed to alphanumeric
-#
-# RETURN/NOTES:
-# Returns string of 8 digit numeric key
+# Generates and returns an 8 character alphanumeric random key
 #
 def gen_key():
-    range_start = 10**(KEY_SIZE-1)
-    range_end = (10**KEY_SIZE)-1
-    return str(random.randint(range_start, range_end))
+    source = string.ascii_letters + string.digits
+    return ''.join((random.choice(source) for i in range(8)))
 
 # PURPOSE:
 # Get message using initial KEY, if there is a message display it,
@@ -69,7 +65,7 @@ def client(URL, KEY):
     clientToken = requests.session()
     NEXT_KEY = gen_key()
     inputMsg = str(input("Enter a message: "))
-    message = NEXT_KEY + ''.join(inputMsg)
+    message = NEXT_KEY + inputMsg
     clientToken.get(HTTP + URL + "/create")
     dictionary = {"key": KEY, "msg": message, "csrfmiddlewaretoken": clientToken.cookies['csrftoken']}
     post = clientToken.post(HTTP + URL + "/create", data = dictionary)
