@@ -1,6 +1,8 @@
 from django.test import TestCase
 from msgserver.models import Message
 import json
+import random
+import string
 
 class MessageTestCase (TestCase):
     # PURPOSE:
@@ -76,7 +78,8 @@ class MessageTestCase (TestCase):
     # Asserts the msg from get to match with ""
     #
     def test_msg_constraints_enforced(self):
-        create = self.client.post("/msgserver/create", {'key':'1234abcd', 'msg':'01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'})
+        msg = ''.join((random.choice(string.ascii_letters) for i in range(161)))
+        create = self.client.post("/msgserver/create", {'key':'1234abcd', 'msg':msg})
         get = self.client.get("/msgserver/get/1234abcd")
         self.assertIn(b'', get._container[0])
 

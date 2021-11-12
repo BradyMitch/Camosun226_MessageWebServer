@@ -4,6 +4,7 @@ import requests
 import sys
 import random
 import string
+import json
 
 HOST = ''
 PORT = 12345
@@ -46,20 +47,16 @@ def gen_key():
 #
 # RETURN/NOTES:
 # Ends after user creates a message for the last KEY.
-# Note: keyStr removes first 28 characters from msg string,
-# the next line takes the first 8 characters of that string as the next KEY
 #
 def client(URL, KEY):
     while(True):
         data = requests.get(HTTP + URL + "/get/" + KEY)
-        msg = data.text
 
-        if len(msg) > KEY_SIZE:
-            msg = msg.strip()
-            keyStr = msg[GETKEY_OFFSET:]
-            KEY = keyStr[0:KEY_SIZE]
+        if data.text:
+            msg = data.json().get('msg')[KEY_SIZE:]
+            KEY = data.json().get('msg')[0:KEY_SIZE]
             print(msg)
-        elif len(msg) == 0:
+        else:
             break
     
     clientToken = requests.session()
