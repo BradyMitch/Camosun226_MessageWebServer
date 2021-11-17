@@ -91,4 +91,4 @@ class MessageTestCase (TestCase):
         create = self.client.post("/msgserver/create", {'key':'1234abce', 'msg':'Test2'})
         get = self.client.get("/msgserver/")
         m = json.loads(get.content)
-        self.assertEqual(str(m), '[\'{"key": "1234abcd", "msg": "Test"}\',\'{"key": "1234abce", "msg": "Test2"}\']')
+        self.assertEqual(str(m), '[\'{"key": "1234abcd", "msg": "Test"}\', \'{"key": "1234abce", "msg": "Test2"}\']')
