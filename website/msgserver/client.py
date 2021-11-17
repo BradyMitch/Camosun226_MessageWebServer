@@ -14,6 +14,8 @@ GETKEY_OFFSET = 28
 REQ_ARGS = 3
 ERROR_MSG = "Error: needs 2 arguments (URL, KEY)"
 HTTP = "http://"
+GET = "/get/"
+CREATE = "/create"
 
 # PURPOSE:
 # If program run without 2 command line arguments (URL and KEY),
@@ -50,7 +52,7 @@ def gen_key():
 #
 def client(URL, KEY):
     while(True):
-        data = requests.get(HTTP + URL + "/get/" + KEY)
+        data = requests.get(HTTP + URL + GET + KEY)
 
         if data.text:
             msg = data.json().get('msg')[KEY_SIZE:]
@@ -63,8 +65,8 @@ def client(URL, KEY):
     NEXT_KEY = gen_key()
     inputMsg = str(input("Enter a message: "))
     message = NEXT_KEY + inputMsg
-    clientToken.get(HTTP + URL + "/create")
+    clientToken.get(HTTP + URL + CREATE)
     dictionary = {"key": KEY, "msg": message, "csrfmiddlewaretoken": clientToken.cookies['csrftoken']}
-    post = clientToken.post(HTTP + URL + "/create", data = dictionary)
+    post = clientToken.post(HTTP + URL + CREATE, data = dictionary)
 
 client(URL, KEY)

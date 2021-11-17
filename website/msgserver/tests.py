@@ -88,7 +88,7 @@ class MessageTestCase (TestCase):
     #
     def test_get_msg_in_json_format(self):
         create = self.client.post("/msgserver/create", {'key':'1234abcd', 'msg':'Test'})
+        create = self.client.post("/msgserver/create", {'key':'1234abce', 'msg':'Test2'})
         get = self.client.get("/msgserver/")
         m = json.loads(get.content)
-        self.assertEqual(str(m), '[\'{"key": "1234abcd", "msg": "Test"}\']')
-
+        self.assertEqual(str(m), '[\'{"key": "1234abcd", "msg": "Test"}\',\'{"key": "1234abce", "msg": "Test2"}\']')
