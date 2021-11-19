@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import dj_database_url
 import django_heroku
+import django.contrib.postgres.fields
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +30,7 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ancient-lake-21183.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['ancient-lake-21183.herokuapp.com','127.0.0.1','localhost']
 
 
 # Application definition
@@ -82,6 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'HOST': 'localhost',
+        'PORT': '8000',
     }
 }
 
@@ -138,7 +141,7 @@ if os.environ.get('DJANGO_SECRET_KEY') != 'TESTING':
     SECURE_HSTS_SECONDS = 60
 
     print(' ')
+    django_heroku.settings(locals(), test_runner = False)
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
-django_heroku.settings(locals())
